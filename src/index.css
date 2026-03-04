@@ -11,6 +11,9 @@ html,
 body,
 #root {
   height: 100%;
+  width: 100%;
+  overflow: hidden;
+  /* Stop the entire page from bouncing or sliding up on Android */
 }
 
 body {
@@ -67,6 +70,19 @@ body {
 @media (max-width: 768px) {
   .mobile-nav {
     display: flex;
+  }
+
+  /* Lock the viewport exactly to the visible screen, preventing keyboard crush */
+  html,
+  body,
+  #root {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100dvh;
+    width: 100vw;
   }
 }
 

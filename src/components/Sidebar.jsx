@@ -19,10 +19,10 @@ export default function Sidebar({ showUser, showLegend, showStats, statsContent 
 
             <nav className="sidebar-nav">
                 <Link to="/" className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}>
-                    🤖 Field Bot
-                </Link>
-                <Link to="/dashboard" className={`nav-item ${location.pathname === '/dashboard' ? 'active' : ''}`}>
                     📊 Dashboard
+                </Link>
+                <Link to="/bot" className={`nav-item ${location.pathname === '/bot' ? 'active' : ''}`}>
+                    🤖 Field Bot
                 </Link>
                 <Link to="/calendar" className={`nav-item ${location.pathname === '/calendar' ? 'active' : ''}`}>
                     📅 Calendar

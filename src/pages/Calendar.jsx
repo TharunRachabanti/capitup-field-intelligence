@@ -119,7 +119,7 @@ export default function Calendar() {
                     </div>
                     <div className="header-actions">
                         <button className="btn-outline" onClick={loadClients}>{loading ? '⏳ Loading...' : '🔄 Refresh Data'}</button>
-                        <button className="btn-outline" onClick={() => navigate('/')}>➕ Log Visit</button>
+                        <button className="btn-outline" onClick={() => navigate('/bot')}>➕ Log Visit</button>
                     </div>
                 </div>
 

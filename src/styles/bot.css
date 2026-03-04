@@ -767,3 +767,10 @@
         font-size: 10px;
     }
 }
+
+/* Mobile Nav Adjustment */
+@media (max-width: 768px) {
+    .field-bot-layout {
+        height: calc(100vh - 56px);
+    }
+}

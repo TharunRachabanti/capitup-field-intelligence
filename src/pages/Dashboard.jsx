@@ -20,10 +20,6 @@ const SAMPLE_DATA = [
 ]
 
 
-function getClients() {
-    return JSON.parse(localStorage.getItem('capitup_clients') || '[]')
-}
-
 function daysUntil(dateStr) {
     const d = new Date(dateStr)
     const t = new Date(); t.setHours(0, 0, 0, 0)
@@ -44,27 +40,40 @@ function getScoreClass(label) {
     return 'score-cold-pill'
 }
 
-
 export default function Dashboard() {
     const navigate = useNavigate()
     const [clients, setClients] = useState([])
+    const [loading, setLoading] = useState(true)
     const [search, setSearch] = useState('')
     const [filter, setFilter] = useState('all')
 
-    const loadClients = useCallback(() => {
-        setClients(getClients())
+    const loadClients = useCallback(async () => {
+        setLoading(true)
+        try {
+            const url = import.meta.env.VITE_APPS_SCRIPT_URL
+            if (!url) {
+                console.error("Missing VITE_APPS_SCRIPT_URL, falling back to local storage")
+                setClients(JSON.parse(localStorage.getItem('capitup_clients') || '[]'))
+                setLoading(false)
+                return
+            }
+
+            const res = await fetch(`${url}?action=getAll`)
+            const data = await res.json()
+
+            if (data.status === 'success' && data.data) {
+                setClients(data.data)
+                localStorage.setItem('capitup_clients', JSON.stringify(data.data)) // cache
+            }
+        } catch (error) {
+            console.error("Error fetching live clients:", error)
+            setClients(JSON.parse(localStorage.getItem('capitup_clients') || '[]'))
+        } finally {
+            setLoading(false)
+        }
     }, [])
 
     useEffect(() => { loadClients() }, [loadClients])
-
-    function loadSampleData() {
-        const existing = getClients()
-        const existingIds = new Set(existing.map(c => c.clientId))
-        const newSamples = SAMPLE_DATA.filter(s => !existingIds.has(s.clientId))
-        const merged = [...existing, ...newSamples]
-        localStorage.setItem('capitup_clients', JSON.stringify(merged))
-        loadClients()
-    }
 
     // Filtered clients for the table
     let filteredClients = [...clients]
@@ -129,7 +138,7 @@ export default function Dashboard() {
                         </div>
                         <div className="header-actions">
                             <button className="btn-outline" onClick={loadClients}>{loading ? '⏳ Loading...' : '🔄 Refresh Data'}</button>
-                            <button className="btn-outline" onClick={() => navigate('/')}>➕ Log Visit</button>
+                            <button className="btn-outline" onClick={() => navigate('/bot')}>➕ Log Visit</button>
                         </div>
                     </div>
                     {loading ? (
@@ -145,7 +154,7 @@ export default function Dashboard() {
                             <div className="empty-sub">Use the Field Bot to log your first client visit or check your database connection.</div>
                             <button className="btn-primary-sm" onClick={loadClients}>🔄 Refresh Data</button>
                             <br />
-                            <button className="btn-secondary-sm" style={{ marginTop: '8px' }} onClick={() => navigate('/')}>🤖 Open Field Bot</button>
+                            <button className="btn-secondary-sm" style={{ marginTop: '8px' }} onClick={() => navigate('/bot')}>🤖 Open Field Bot</button>
                         </div>
                     )}
                 </div>
@@ -165,7 +174,7 @@ export default function Dashboard() {
                     </div>
                     <div className="header-actions">
                         <button className="btn-outline" onClick={loadClients}>{loading ? '⏳ Loading...' : '🔄 Refresh Data'}</button>
-                        <button className="btn-outline" onClick={() => navigate('/')}>➕ Log Visit</button>
+                        <button className="btn-outline" onClick={() => navigate('/bot')}>➕ Log Visit</button>
                     </div>
                 </div>
 

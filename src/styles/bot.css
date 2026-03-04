@@ -774,11 +774,18 @@
     .field-bot-layout {
         height: 100dvh;
         padding-bottom: 56px;
+        /* Reserve space for mobile nav */
+    }
+
+    .input-area {
+        padding-bottom: 14px;
+        /* Extra breathing room */
     }
 }
 
 @media (max-width: 768px) and (max-height: 600px) {
     .field-bot-layout {
         padding-bottom: 0;
+        /* Keyboard is open, nav is hidden */
     }
 }

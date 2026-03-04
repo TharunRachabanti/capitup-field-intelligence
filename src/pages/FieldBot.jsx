@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
 import '../styles/bot.css'
 
 const OPENAI_KEY = import.meta.env.VITE_OPENAI_API_KEY || ''
@@ -1020,6 +1020,22 @@ export default function FieldBot() {
                     </div>
                 </div>
             )}
+
+            {/* MOBILE BOTTOM NAV — must be inside layout to avoid being clipped by overflow:hidden */}
+            <div className="mobile-nav" style={{ position: 'relative', zIndex: 999 }}>
+                <Link to="/" className="mobile-nav-item">
+                    <div className="mobile-nav-icon">📊</div>
+                    <span>Dashboard</span>
+                </Link>
+                <Link to="/bot" className="mobile-nav-item active">
+                    <div className="mobile-nav-icon">🤖</div>
+                    <span>Chat Bot</span>
+                </Link>
+                <Link to="/calendar" className="mobile-nav-item">
+                    <div className="mobile-nav-icon">📅</div>
+                    <span>Calendar</span>
+                </Link>
+            </div>
         </div>
     )
 }

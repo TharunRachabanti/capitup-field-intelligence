@@ -34,6 +34,25 @@ export default function Calendar() {
     const [popup, setPopup] = useState(null)
     const calendarRef = useRef(null)
 
+    const currentDate = new Date()
+    const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth())
+    const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear())
+
+    const years = Array.from({ length: 12 }, (_, i) => currentDate.getFullYear() - 2 + i)
+    const months = [
+        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ]
+
+    function handleDateJump(m, y) {
+        setSelectedMonth(m)
+        setSelectedYear(y)
+        if (calendarRef.current) {
+            const dateStr = `${y}-${String(m + 1).padStart(2, '0')}-01`
+            calendarRef.current.getApi().gotoDate(dateStr)
+        }
+    }
+
     const loadClients = useCallback(async () => {
         setLoading(true)
         try {
@@ -126,16 +145,24 @@ export default function Calendar() {
                     <div className="header-actions">
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
                             <span style={{ fontSize: '10px', color: '#7d8590', fontWeight: 'bold' }}>JUMP TO MONTH</span>
-                            <input
-                                type="month"
-                                className="btn-outline"
-                                style={{ padding: '6px 10px', width: 'auto' }}
-                                onChange={(e) => {
-                                    if (e.target.value && calendarRef.current) {
-                                        calendarRef.current.getApi().gotoDate(e.target.value)
-                                    }
-                                }}
-                            />
+                            <div style={{ display: 'flex', gap: '4px' }}>
+                                <select
+                                    className="btn-outline"
+                                    style={{ padding: '6px 10px', width: 'auto' }}
+                                    value={selectedMonth}
+                                    onChange={(e) => handleDateJump(parseInt(e.target.value), selectedYear)}
+                                >
+                                    {months.map((m, i) => <option key={i} value={i}>{m}</option>)}
+                                </select>
+                                <select
+                                    className="btn-outline"
+                                    style={{ padding: '6px 10px', width: 'auto' }}
+                                    value={selectedYear}
+                                    onChange={(e) => handleDateJump(selectedMonth, parseInt(e.target.value))}
+                                >
+                                    {years.map(y => <option key={y} value={y}>{y}</option>)}
+                                </select>
+                            </div>
                         </div>
                         <button className="btn-outline" onClick={loadClients} style={{ alignSelf: 'flex-end' }}>{loading ? '⏳ Loading...' : '🔄 Refresh Data'}</button>
                     </div>

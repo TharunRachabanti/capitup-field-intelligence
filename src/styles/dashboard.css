@@ -22,10 +22,7 @@
 .sidebar-logo {
     font-size: 20px;
     font-weight: 800;
-    background: linear-gradient(135deg, #d4a843, #f0c060);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #e6edf3;
     padding: 0 20px 20px;
     border-bottom: 1px solid #30363d;
     letter-spacing: -0.5px;
@@ -43,12 +40,13 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #d4a843, #f0c060);
+    background: #21262d;
+    border: 1px solid #30363d;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 800;
-    color: #0d1117;
+    font-weight: 700;
+    color: #e6edf3;
     font-size: 14px;
 }
 
@@ -194,20 +192,22 @@
 }
 
 .page-title {
-    font-size: 24px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: #e6edf3;
 }
 
 .page-sub {
-    font-size: 13px;
+    font-size: 14px;
     color: #7d8590;
     margin-top: 4px;
+    font-weight: 400;
 }
 
 .header-actions {
     display: flex;
-    gap: 10px;
+    gap: 12px;
 }
 
 /* ── KPI GRID ── */
@@ -222,25 +222,37 @@
     background: #161b22;
     border: 1px solid #30363d;
     border-radius: 12px;
-    padding: 18px 16px;
-    transition: transform 0.2s, border-color 0.2s;
+    padding: 20px;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
 }
 
 .kpi-card:hover {
     transform: translateY(-2px);
-    border-color: #484f58;
+    border-color: #7d8590;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .kpi-icon {
-    font-size: 24px;
-    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: #21262d;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    color: #c9d1d9;
+    margin-bottom: 16px;
 }
 
 .kpi-val {
-    font-size: 28px;
-    font-weight: 800;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
     color: #e6edf3;
-    line-height: 1;
+    line-height: 1.1;
 }
 
 .kpi-val.red {
@@ -377,7 +389,7 @@
 
 .comp-bar {
     height: 100%;
-    background: linear-gradient(90deg, #d4a843, #f0c060);
+    background: #484f58;
     border-radius: 4px;
     transition: width 1s ease;
 }
@@ -408,18 +420,19 @@
 
 .data-table th {
     text-align: left;
-    padding: 10px 12px;
-    font-size: 11px;
-    font-weight: 600;
+    padding: 12px 14px;
+    font-size: 10px;
+    font-weight: 700;
     letter-spacing: 0.5px;
     color: #7d8590;
     text-transform: uppercase;
     border-bottom: 1px solid #30363d;
+    background: #111418;
     white-space: nowrap;
 }
 
 .data-table td {
-    padding: 12px 12px;
+    padding: 14px 14px;
     border-bottom: 1px solid #21262d;
     vertical-align: middle;
 }
@@ -429,12 +442,13 @@
 }
 
 .data-table tr:hover td {
-    background: #1c2128;
+    background: #161b22;
 }
 
 .client-name-cell {
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13px;
+    color: #e6edf3;
 }
 
 .client-id-cell {

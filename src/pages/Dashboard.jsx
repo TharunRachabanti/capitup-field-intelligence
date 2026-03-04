@@ -5,6 +5,14 @@ import { HamburgerBtn } from '../App'
 import '../styles/dashboard.css'
 
 // Sample data for demo purposes
+const IconUsers = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+const IconAlert = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+const IconClock = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+const IconFlame = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c-2-2-2-6-2-6s2 4.5 5 4.5a3.5 3.5 0 0 1 3.5 3.5c0 3.86-3.14 7-7 7s-7-3.14-7-7c0-1.8.72-3.4 1.88-4.5"></path></svg>
+const IconWallet = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"></path></svg>
+const IconBuilding = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M12 6h.01"></path><path d="M12 10h.01"></path><path d="M12 14h.01"></path><path d="M16 10h.01"></path><path d="M16 14h.01"></path><path d="M8 10h.01"></path><path d="M8 14h.01"></path></svg>
+const IconEmpty = () => <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+
 function getDateOffset(days) {
     const d = new Date()
     d.setDate(d.getDate() + days)
@@ -12,12 +20,12 @@ function getDateOffset(days) {
 }
 
 const SAMPLE_DATA = [
-    { clientId: 'CL-0001', clientName: 'Ramesh Gupta', companyName: 'Gupta Textiles Pvt Ltd', designation: 'MD', phone: '9876543210', email: 'ramesh@guptatextiles.com', natureBusiness: 'Manufacturing', currentInsurer: 'New India Assurance', policyType: 'Fire & Allied Perils', sumInsured: '2.5 Crore', premium: '1.25L', policyStart: '2024-04-01', renewalDate: getDateOffset(18), satisfaction: '😞 Unhappy', competitorInfo: 'Yes - another broker approached', notes: 'Had claim issue last year. Very interested in switching.', opportunityScore: 85, opportunityLabel: '🔥 HOT LEAD', visitDate: '2025-03-01', gps: '28.6234°N, 77.2090°E', submittedAt: new Date().toISOString() },
-    { clientId: 'CL-0002', clientName: 'Sunita Mehta', companyName: 'MedCare Hospitals', designation: 'CFO', phone: '9123456780', email: 'sunita@medcare.in', natureBusiness: 'Healthcare', currentInsurer: 'Star Health', policyType: 'Group Health Insurance', sumInsured: '5L per person', premium: '8.40L', policyStart: '2024-06-15', renewalDate: getDateOffset(22), satisfaction: '😐 Okay / Neutral', competitorInfo: 'none', notes: '250 employees. Wants better network hospitals.', opportunityScore: 72, opportunityLabel: '🟡 WARM LEAD', visitDate: '2025-02-28', gps: '19.0760°N, 72.8777°E', submittedAt: new Date().toISOString() },
-    { clientId: 'CL-0003', clientName: 'Vikram Nair', companyName: 'CloudSoft Technologies', designation: 'CEO', phone: '9988776655', email: 'vikram@cloudsoft.io', natureBusiness: 'IT/Technology', currentInsurer: 'HDFC Ergo', policyType: 'Cyber Insurance', sumInsured: '1 Crore', premium: '2.20L', policyStart: '2024-03-10', renewalDate: getDateOffset(35), satisfaction: '😊 Very Happy', competitorInfo: 'none', notes: 'Wants to add Professional Indemnity next year.', opportunityScore: 45, opportunityLabel: '🟡 WARM LEAD', visitDate: '2025-02-25', gps: '12.9716°N, 77.5946°E', submittedAt: new Date().toISOString() },
-    { clientId: 'CL-0004', clientName: 'Anita Sharma', companyName: 'Sharma Pharma Exports', designation: 'Partner', phone: '9765432100', email: 'anita@sharmapharma.com', natureBusiness: 'Trading', currentInsurer: 'Bajaj Allianz', policyType: 'Marine Cargo', sumInsured: '50L per shipment', premium: '3.80L', policyStart: '2024-05-01', renewalDate: getDateOffset(55), satisfaction: '😐 Okay / Neutral', competitorInfo: 'Direct with insurer', notes: 'Ships to UAE and Singapore monthly.', opportunityScore: 58, opportunityLabel: '🟡 WARM LEAD', visitDate: '2025-02-20', gps: '23.0225°N, 72.5714°E', submittedAt: new Date().toISOString() },
-    { clientId: 'CL-0005', clientName: 'Deepak Joshi', companyName: 'Joshi Logistics Ltd', designation: 'Owner', phone: '9654321890', email: 'deepak@joshilogistics.com', natureBusiness: 'Logistics', currentInsurer: 'ICICI Lombard', policyType: 'Motor Fleet', sumInsured: '15 vehicles', premium: '1.60L', policyStart: '2024-07-01', renewalDate: getDateOffset(78), satisfaction: '😊 Very Happy', competitorInfo: 'none', notes: 'Expanding fleet by 5 vehicles next quarter.', opportunityScore: 32, opportunityLabel: '🔵 COLD / NURTURE', visitDate: '2025-02-15', gps: '28.7041°N, 77.1025°E', submittedAt: new Date().toISOString() },
-    { clientId: 'CL-0006', clientName: 'Priya Venkatesh', companyName: 'Venkatesh Constructions', designation: 'MD', phone: '9543218760', email: 'priya@vkconstructions.com', natureBusiness: 'Construction', currentInsurer: 'United India', policyType: 'Contractors All Risk', sumInsured: '10 Crore', premium: '4.50L', policyStart: '2024-02-01', renewalDate: getDateOffset(12), satisfaction: '🔥 Very Dissatisfied - Wants to Switch', competitorInfo: 'Yes - another broker approached', notes: 'Had dispute on claim. Actively looking for new broker.', opportunityScore: 97, opportunityLabel: '🔥 HOT LEAD', visitDate: '2025-03-03', gps: '17.3850°N, 78.4867°E', submittedAt: new Date().toISOString() },
+    { clientId: 'CL-0001', clientName: 'Ramesh Gupta', companyName: 'Gupta Textiles Pvt Ltd', designation: 'MD', phone: '9876543210', email: 'ramesh@guptatextiles.com', natureBusiness: 'Manufacturing', currentInsurer: 'New India Assurance', policyType: 'Fire & Allied Perils', sumInsured: '2.5 Crore', premium: '1.25L', policyStart: '2024-04-01', renewalDate: getDateOffset(18), satisfaction: 'Unhappy', competitorInfo: 'Yes - another broker approached', notes: 'Had claim issue last year. Very interested in switching.', opportunityScore: 85, opportunityLabel: 'HOT LEAD', visitDate: '2025-03-01', gps: '28.6234°N, 77.2090°E', submittedAt: new Date().toISOString() },
+    { clientId: 'CL-0002', clientName: 'Sunita Mehta', companyName: 'MedCare Hospitals', designation: 'CFO', phone: '9123456780', email: 'sunita@medcare.in', natureBusiness: 'Healthcare', currentInsurer: 'Star Health', policyType: 'Group Health Insurance', sumInsured: '5L per person', premium: '8.40L', policyStart: '2024-06-15', renewalDate: getDateOffset(22), satisfaction: 'Okay / Neutral', competitorInfo: 'none', notes: '250 employees. Wants better network hospitals.', opportunityScore: 72, opportunityLabel: 'WARM LEAD', visitDate: '2025-02-28', gps: '19.0760°N, 72.8777°E', submittedAt: new Date().toISOString() },
+    { clientId: 'CL-0003', clientName: 'Vikram Nair', companyName: 'CloudSoft Technologies', designation: 'CEO', phone: '9988776655', email: 'vikram@cloudsoft.io', natureBusiness: 'IT/Technology', currentInsurer: 'HDFC Ergo', policyType: 'Cyber Insurance', sumInsured: '1 Crore', premium: '2.20L', policyStart: '2024-03-10', renewalDate: getDateOffset(35), satisfaction: 'Very Happy', competitorInfo: 'none', notes: 'Wants to add Professional Indemnity next year.', opportunityScore: 45, opportunityLabel: 'WARM LEAD', visitDate: '2025-02-25', gps: '12.9716°N, 77.5946°E', submittedAt: new Date().toISOString() },
+    { clientId: 'CL-0004', clientName: 'Anita Sharma', companyName: 'Sharma Pharma Exports', designation: 'Partner', phone: '9765432100', email: 'anita@sharmapharma.com', natureBusiness: 'Trading', currentInsurer: 'Bajaj Allianz', policyType: 'Marine Cargo', sumInsured: '50L per shipment', premium: '3.80L', policyStart: '2024-05-01', renewalDate: getDateOffset(55), satisfaction: 'Okay / Neutral', competitorInfo: 'Direct with insurer', notes: 'Ships to UAE and Singapore monthly.', opportunityScore: 58, opportunityLabel: 'WARM LEAD', visitDate: '2025-02-20', gps: '23.0225°N, 72.5714°E', submittedAt: new Date().toISOString() },
+    { clientId: 'CL-0005', clientName: 'Deepak Joshi', companyName: 'Joshi Logistics Ltd', designation: 'Owner', phone: '9654321890', email: 'deepak@joshilogistics.com', natureBusiness: 'Logistics', currentInsurer: 'ICICI Lombard', policyType: 'Motor Fleet', sumInsured: '15 vehicles', premium: '1.60L', policyStart: '2024-07-01', renewalDate: getDateOffset(78), satisfaction: 'Very Happy', competitorInfo: 'none', notes: 'Expanding fleet by 5 vehicles next quarter.', opportunityScore: 32, opportunityLabel: 'COLD / NURTURE', visitDate: '2025-02-15', gps: '28.7041°N, 77.1025°E', submittedAt: new Date().toISOString() },
+    { clientId: 'CL-0006', clientName: 'Priya Venkatesh', companyName: 'Venkatesh Constructions', designation: 'MD', phone: '9543218760', email: 'priya@vkconstructions.com', natureBusiness: 'Construction', currentInsurer: 'United India', policyType: 'Contractors All Risk', sumInsured: '10 Crore', premium: '4.50L', policyStart: '2024-02-01', renewalDate: getDateOffset(12), satisfaction: 'Very Dissatisfied - Wants to Switch', competitorInfo: 'Yes - another broker approached', notes: 'Had dispute on claim. Actively looking for new broker.', opportunityScore: 97, opportunityLabel: 'HOT LEAD', visitDate: '2025-03-03', gps: '17.3850°N, 78.4867°E', submittedAt: new Date().toISOString() },
 ]
 
 
@@ -28,11 +36,11 @@ function daysUntil(dateStr) {
 }
 
 function getStatus(days) {
-    if (days <= 0) return { label: '⛔ Expired', cls: 'pill-red' }
-    if (days <= 30) return { label: '🔴 Critical', cls: 'pill-red' }
-    if (days <= 60) return { label: '🟡 Warning', cls: 'pill-yellow' }
-    if (days <= 90) return { label: '🟢 Upcoming', cls: 'pill-green' }
-    return { label: '🔵 Tracked', cls: 'pill-blue' }
+    if (days <= 0) return { label: 'Expired', cls: 'pill-red' }
+    if (days <= 30) return { label: 'Critical', cls: 'pill-red' }
+    if (days <= 60) return { label: 'Warning', cls: 'pill-yellow' }
+    if (days <= 90) return { label: 'Upcoming', cls: 'pill-green' }
+    return { label: 'Tracked', cls: 'pill-blue' }
 }
 
 function getScoreClass(label) {
@@ -124,12 +132,12 @@ export default function Dashboard({ openDrawer }) {
     const addedToday = clients.filter(c => c.visitDate === todayStr).length
 
     const kpis = [
-        { icon: '👥', val: total, label: 'Total Clients', badge: `${addedToday} added today`, badgeClass: 'badge-green' },
-        { icon: '🔴', val: critical, label: 'Critical Renewals', badge: 'Act immediately', badgeClass: 'badge-red', valClass: 'red' },
-        { icon: '🟡', val: warning, label: 'Renewals (30–60 days)', badge: 'Prepare RFQ', badgeClass: 'badge-yellow', valClass: 'yellow' },
-        { icon: '🔥', val: hot, label: 'Hot Leads', badge: 'High conversion', badgeClass: 'badge-red', valClass: 'red' },
-        { icon: '💰', val: `₹${totalPremium}L`, label: 'Premium at Stake', badge: 'Next 90 days', badgeClass: 'badge-yellow' },
-        { icon: '🏢', val: topCompetitor, label: 'Top Competitor', badge: 'Most policies', badgeClass: 'badge-yellow' },
+        { icon: <IconUsers />, val: total, label: 'Total Clients', badge: `${addedToday} added today`, badgeClass: 'badge-green' },
+        { icon: <IconAlert />, val: critical, label: 'Critical Renewals', badge: 'Act immediately', badgeClass: 'badge-red', valClass: 'red' },
+        { icon: <IconClock />, val: warning, label: 'Renewals (30–60 days)', badge: 'Prepare RFQ', badgeClass: 'badge-yellow', valClass: 'yellow' },
+        { icon: <IconFlame />, val: hot, label: 'Hot Leads', badge: 'High conversion', badgeClass: 'badge-red', valClass: 'red' },
+        { icon: <IconWallet />, val: `₹${totalPremium}L`, label: 'Premium at Stake', badge: 'Next 90 days', badgeClass: 'badge-yellow' },
+        { icon: <IconBuilding />, val: topCompetitor, label: 'Top Competitor', badge: 'Most policies', badgeClass: 'badge-yellow' },
     ]
 
     if (!clients.length) {
@@ -154,13 +162,13 @@ export default function Dashboard({ openDrawer }) {
                     </div>
                     {loading ? (
                         <div className="empty-state">
-                            <div className="empty-icon">⏳</div>
+                            <div className="empty-icon-spinner"></div>
                             <div className="empty-title">Fetching from Database...</div>
                             <div className="empty-sub">Connecting to Google Sheets securely.</div>
                         </div>
                     ) : (
                         <div className="empty-state">
-                            <div className="empty-icon">📋</div>
+                            <div className="empty-icon"><IconEmpty /></div>
                             <div className="empty-title">No clients yet</div>
                             <div className="empty-sub">Use the Field Bot to log your first client visit or check your database connection.</div>
                             <button className="btn-primary-sm" onClick={loadClients}>🔄 Refresh Data</button>

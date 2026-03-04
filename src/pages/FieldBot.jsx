@@ -457,6 +457,70 @@ export default function FieldBot({ openDrawer }) {
         const currentStep = stepRef.current
         const currentData = { ...dataRef.current }
 
+        // ── EDIT MODE: user picked a field to correct ──
+        if (currentStep === -1) {
+            // Map label back to FLOW_DEFS index
+            const labelToKey = {
+                'Client Name': 'clientName', 'Company': 'companyName', 'Designation': 'designation',
+                'Phone': 'phone', 'Email': 'email', 'Business Type': 'natureBusiness',
+                'Insurer': 'currentInsurer', 'Policy Type': 'policyType', 'Sum Insured': 'sumInsured',
+                'Premium': 'premium', 'Policy Start': 'policyStart', 'Renewal Date': 'renewalDate',
+                'Satisfaction': 'satisfaction', 'Competitor Info': 'competitorInfo', 'Notes': 'notes',
+            }
+            const fieldKey = labelToKey[input]
+            if (fieldKey) {
+                const flowIndex = FLOW_DEFS.findIndex(f => f.key === fieldKey)
+                if (flowIndex >= 0) {
+                    setIsTyping(false)
+                    isTypingRef.current = false
+                    await botSpeak(flowIndex, currentData)
+                    // Set step to negative marker: -100 - flowIndex
+                    setStep(-100 - flowIndex)
+                    stepRef.current = -100 - flowIndex
+                    return
+                }
+            }
+            // Fallback if label not recognized
+            setIsTyping(false)
+            isTypingRef.current = false
+            addBotMsg(`I didn't catch that. Please tap one of the buttons above.`)
+            return
+        }
+
+        // ── EDIT MODE: user entered the corrected value ──
+        if (currentStep < -1) {
+            const flowIndex = -(currentStep + 100)
+            const flowStep = FLOW_DEFS[flowIndex]
+            if (flowStep && flowStep.key) {
+                const error = validateLocally(flowStep.key, input)
+                if (error) {
+                    setIsTyping(false)
+                    isTypingRef.current = false
+                    addBotMsg(error)
+                    setQuickReplies(flowStep.quickReplies || [])
+                    return
+                }
+                // Save corrected value
+                let value = input.trim()
+                if (['policyStart', 'renewalDate'].includes(flowStep.key)) {
+                    value = parseDate(value)
+                }
+                const updated = { ...dataRef.current, [flowStep.key]: value }
+                setData(updated)
+                dataRef.current = updated
+                setIsTyping(false)
+                isTypingRef.current = false
+                addBotMsg(`Got it, updated **${input}**. Let me show the summary again.`)
+                await sleep(600)
+                setShowConfirm(true)
+                // Reset step to end of flow
+                const lastStep = FLOW_DEFS.length
+                setStep(lastStep)
+                stepRef.current = lastStep
+                return
+            }
+        }
+
         // Step 0 is greeting — engage warmly before starting data collection
         if (currentStep === 0) {
             // Check if user is greeting/chatting instead of picking a visit type
@@ -793,9 +857,37 @@ export default function FieldBot({ openDrawer }) {
 
     function handleEdit() {
         setShowConfirm(false)
-        addBotMsg(`No problem! Which detail would you like to correct? Just tell me.`)
-        setStep(1)
-        stepRef.current = 1
+
+        // Build a list of editable fields from collected data
+        const editableFields = FLOW_DEFS
+            .filter(f => f.key && dataRef.current[f.key])
+            .map(f => {
+                const labels = {
+                    clientName: 'Client Name',
+                    companyName: 'Company',
+                    designation: 'Designation',
+                    phone: 'Phone',
+                    email: 'Email',
+                    natureBusiness: 'Business Type',
+                    currentInsurer: 'Insurer',
+                    policyType: 'Policy Type',
+                    sumInsured: 'Sum Insured',
+                    premium: 'Premium',
+                    policyStart: 'Policy Start',
+                    renewalDate: 'Renewal Date',
+                    satisfaction: 'Satisfaction',
+                    competitorInfo: 'Competitor Info',
+                    notes: 'Notes',
+                }
+                return labels[f.key] || f.key
+            })
+
+        addBotMsg(`No problem! Which detail do you want to correct? Tap below:`)
+        setQuickReplies(editableFields)
+
+        // Set a special step marker so handleUserInput knows to route the selection
+        setStep(-1)
+        stepRef.current = -1
     }
 
     function handleNewVisit() {

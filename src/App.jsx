@@ -23,6 +23,13 @@ function MobileNav() {
   )
 }
 
+// Guard: do NOT render the global nav on /bot — FieldBot renders its own nav inside overflow:hidden
+function MobileNavGuard() {
+  const location = useLocation()
+  if (location.pathname === '/bot') return null
+  return <MobileNav />
+}
+
 function App() {
   return (
     <>
@@ -32,7 +39,7 @@ function App() {
         <Route path="/calendar" element={<Calendar />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      <MobileNav />
+      <MobileNavGuard />
     </>
   )
 }

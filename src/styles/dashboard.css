@@ -765,8 +765,6 @@
     .main-area {
         padding: 16px;
         padding-bottom: 80px;
-        height: 100%;
-        overflow-y: auto;
     }
 
     .kpi-grid {
@@ -854,8 +852,6 @@
     .main-area {
         padding: 12px 10px;
         padding-bottom: 80px;
-        height: 100%;
-        overflow-y: auto;
     }
 
     .kpi-grid {

@@ -22,7 +22,7 @@ export default function Sidebar({ showUser, showLegend, showStats, statsContent 
                     📊 Dashboard
                 </Link>
                 <Link to="/bot" className={`nav-item ${location.pathname === '/bot' ? 'active' : ''}`}>
-                    🤖 Field Bot
+                    🤖 Chat Bot
                 </Link>
                 <Link to="/calendar" className={`nav-item ${location.pathname === '/calendar' ? 'active' : ''}`}>
                     📅 Calendar

@@ -922,7 +922,7 @@ export default function FieldBot() {
                     </div>
                 </div>
                 <div className="topbar-right">
-                    <button className="icon-btn" onClick={() => navigate('/dashboard')} title="Admin Dashboard">⚡</button>
+                    <button className="icon-btn" onClick={() => navigate('/')} title="Admin Dashboard">⚡</button>
                     <button className="icon-btn" onClick={() => navigate('/calendar')} title="Calendar">📅</button>
                 </div>
             </div>
@@ -1015,7 +1015,7 @@ export default function FieldBot() {
                         </div>
                         <div className="success-actions">
                             <button className="btn-primary" onClick={handleNewVisit}>➕ New Visit</button>
-                            <button className="btn-secondary" onClick={() => navigate('/dashboard')}>📊 View Dashboard</button>
+                            <button className="btn-secondary" onClick={() => navigate('/')}>📊 View Dashboard</button>
                         </div>
                     </div>
                 </div>

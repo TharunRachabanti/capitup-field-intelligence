@@ -1,8 +1,7 @@
 /* ── LAYOUT ── */
 .app-layout {
     display: flex;
-    height: 100%;
-    overflow: hidden;
+    min-height: 100dvh;
 }
 
 /* ── SIDEBAR ── */
@@ -179,10 +178,10 @@
 /* ── MAIN ── */
 .main-area {
     flex: 1;
-    height: 100%;
     padding: 28px;
-    overflow-y: auto;
     min-width: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .page-header {

@@ -770,17 +770,10 @@
     }
 }
 
-/* Mobile Nav Adjustment */
+/* Mobile Adjustment */
 @media (max-width: 768px) {
     .field-bot-layout {
         height: 100dvh;
-        padding-bottom: 56px;
-        /* Reserve space for mobile nav */
-    }
-
-    .input-area {
-        padding-bottom: 14px;
-        /* Extra breathing room */
     }
 }
 

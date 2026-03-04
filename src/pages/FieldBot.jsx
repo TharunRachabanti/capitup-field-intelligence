@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate, Link, useLocation } from 'react-router-dom'
+import { HamburgerBtn } from '../App'
 import '../styles/bot.css'
 
 const OPENAI_KEY = import.meta.env.VITE_OPENAI_API_KEY || ''
@@ -266,7 +267,7 @@ function TypingIndicator() {
 }
 
 // ── MAIN FIELD BOT PAGE ──
-export default function FieldBot() {
+export default function FieldBot({ openDrawer }) {
     const navigate = useNavigate()
     const chatRef = useRef(null)
     const inputRef = useRef(null)
@@ -915,6 +916,8 @@ export default function FieldBot() {
             {/* TOP BAR */}
             <div className="topbar">
                 <div className="topbar-left">
+                    {/* Hamburger opens the nav drawer on mobile */}
+                    <HamburgerBtn onClick={openDrawer} />
                     <div className="bot-avatar">C</div>
                     <div>
                         <div className="bot-name">CAPITUP Field Assistant</div>
@@ -1021,21 +1024,6 @@ export default function FieldBot() {
                 </div>
             )}
 
-            {/* MOBILE BOTTOM NAV — must be inside layout to avoid being clipped by overflow:hidden */}
-            <div className="mobile-nav" style={{ position: 'relative', zIndex: 999 }}>
-                <Link to="/" className="mobile-nav-item">
-                    <div className="mobile-nav-icon">📊</div>
-                    <span>Dashboard</span>
-                </Link>
-                <Link to="/bot" className="mobile-nav-item active">
-                    <div className="mobile-nav-icon">🤖</div>
-                    <span>Chat Bot</span>
-                </Link>
-                <Link to="/calendar" className="mobile-nav-item">
-                    <div className="mobile-nav-icon">📅</div>
-                    <span>Calendar</span>
-                </Link>
-            </div>
         </div>
     )
 }

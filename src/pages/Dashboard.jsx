@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
+import { HamburgerBtn } from '../App'
 import '../styles/dashboard.css'
 
 // Sample data for demo purposes
@@ -40,7 +41,7 @@ function getScoreClass(label) {
     return 'score-cold-pill'
 }
 
-export default function Dashboard() {
+export default function Dashboard({ openDrawer }) {
     const navigate = useNavigate()
     const [clients, setClients] = useState([])
     const [loading, setLoading] = useState(true)
@@ -136,6 +137,11 @@ export default function Dashboard() {
             <div className="app-layout">
                 <Sidebar showUser />
                 <div className="main-area">
+                    {/* Mobile-only header with hamburger */}
+                    <div className="mobile-header">
+                        <HamburgerBtn onClick={openDrawer} />
+                        <span className="mobile-header-title">Dashboard</span>
+                    </div>
                     <div className="page-header">
                         <div>
                             <div className="page-title">Intelligence Dashboard</div>
@@ -171,6 +177,11 @@ export default function Dashboard() {
         <div className="app-layout">
             <Sidebar showUser />
             <div className="main-area">
+                {/* Mobile-only header with hamburger */}
+                <div className="mobile-header">
+                    <HamburgerBtn onClick={openDrawer} />
+                    <span className="mobile-header-title">Dashboard</span>
+                </div>
                 {/* HEADER */}
                 <div className="page-header">
                     <div>

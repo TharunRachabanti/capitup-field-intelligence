@@ -6,6 +6,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction'
 import Sidebar from '../components/Sidebar'
+import { HamburgerBtn } from '../App'
 import '../styles/dashboard.css'
 
 
@@ -27,7 +28,7 @@ function getEventColor(days) {
     return { bg: '#1d4ed8', border: '#1e40af', text: '#fff' }
 }
 
-export default function Calendar() {
+export default function Calendar({ openDrawer }) {
     const navigate = useNavigate()
     const [clients, setClients] = useState([])
     const [loading, setLoading] = useState(true)
@@ -135,6 +136,11 @@ export default function Calendar() {
             <Sidebar showLegend showStats statsContent={statsContent} />
 
             <div className="main-area">
+                {/* Mobile-only header with hamburger */}
+                <div className="mobile-header">
+                    <HamburgerBtn onClick={openDrawer} />
+                    <span className="mobile-header-title">Calendar</span>
+                </div>
                 <div className="page-header">
                     <div>
                         <div className="page-title">Renewal Intelligence Calendar</div>

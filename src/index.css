@@ -13,7 +13,6 @@ body,
   height: 100%;
   width: 100%;
   overflow: hidden;
-  /* Stop the entire page from bouncing or sliding up on Android */
 }
 
 body {
@@ -24,55 +23,179 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── GLOBAL MOBILE NAV ── */
-.mobile-nav {
+/* ── HAMBURGER BUTTON ── */
+.ham-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  color: #e6edf3;
+  font-size: 22px;
+  line-height: 1;
+  border-radius: 8px;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.ham-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ── MOBILE DRAWER BACKDROP ── */
+.drawer-backdrop {
   display: none;
   position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #161b22;
-  border-top: 1px solid #30363d;
-  z-index: 9999;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  padding: 8px 0;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 8000;
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
-.mobile-nav-item {
+.drawer-backdrop.open {
+  opacity: 1;
+}
+
+/* ── SLIDE-OUT DRAWER ── */
+.mobile-drawer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100dvh;
+  background: #161b22;
+  border-right: 1px solid #30363d;
+  z-index: 9000;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
+}
+
+.mobile-drawer.open {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid #30363d;
+}
+
+.drawer-logo {
+  font-size: 20px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #d4a843, #f0c060);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+
+.drawer-close {
+  background: none;
+  border: none;
+  color: #7d8590;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+
+.drawer-close:hover {
+  background: #21262d;
+  color: #e6edf3;
+}
+
+.drawer-nav {
+  padding: 16px 12px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 4px;
+}
+
+.drawer-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
   text-decoration: none;
-  color: #7d8590;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 600;
-  flex: 1;
-  text-align: center;
+  color: #7d8590;
+  transition: all 0.15s;
 }
 
-.mobile-nav-icon {
-  font-size: 18px;
-  margin-bottom: 2px;
+.drawer-nav-item:hover {
+  background: #21262d;
+  color: #e6edf3;
 }
 
-.mobile-nav-item.active {
+.drawer-nav-item.active {
+  background: rgba(212, 168, 67, 0.12);
   color: #d4a843;
 }
 
-.mobile-nav-item.active .mobile-nav-icon {
-  transform: scale(1.1);
+.drawer-nav-icon {
+  font-size: 20px;
+  width: 28px;
+  text-align: center;
+}
+
+.drawer-footer {
+  margin-top: auto;
+  padding: 16px 20px;
+  border-top: 1px solid #30363d;
+  font-size: 11px;
+  color: #484f58;
+}
+
+/* ── MOBILE HEADER BAR ── */
+.mobile-header {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.mobile-header-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #d4a843;
+  letter-spacing: -0.3px;
 }
 
 @media (max-width: 768px) {
-  .mobile-nav {
+  .ham-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-drawer {
     display: flex;
   }
 
-  /* Lock the viewport exactly to the visible screen, preventing keyboard crush */
+  .drawer-backdrop {
+    display: block;
+  }
+
+  .mobile-header {
+    display: flex;
+  }
+
+  /* Lock viewport so keyboard doesn't crush layout */
   html,
   body,
   #root {
@@ -83,12 +206,5 @@ body {
     bottom: 0;
     height: 100dvh;
     width: 100vw;
-  }
-}
-
-/* Hide mobile nav when keyboard is open (height shrinks) */
-@media (max-width: 768px) and (max-height: 600px) {
-  .mobile-nav {
-    display: none !important;
   }
 }

@@ -30,10 +30,32 @@ function getEventColor(days) {
 export default function Calendar() {
     const navigate = useNavigate()
     const [clients, setClients] = useState([])
+    const [loading, setLoading] = useState(true)
     const [popup, setPopup] = useState(null)
 
-    const loadClients = useCallback(() => {
-        setClients(getClients())
+    const loadClients = useCallback(async () => {
+        setLoading(true)
+        try {
+            const url = import.meta.env.VITE_APPS_SCRIPT_URL
+            if (!url) {
+                setClients(JSON.parse(localStorage.getItem('capitup_clients') || '[]'))
+                setLoading(false)
+                return
+            }
+
+            const res = await fetch(`${url}?action=getAll`)
+            const data = await res.json()
+
+            if (data.status === 'success' && data.data) {
+                setClients(data.data)
+                localStorage.setItem('capitup_clients', JSON.stringify(data.data))
+            }
+        } catch (error) {
+            console.error("Calendar fetch error:", error)
+            setClients(JSON.parse(localStorage.getItem('capitup_clients') || '[]'))
+        } finally {
+            setLoading(false)
+        }
     }, [])
 
     useEffect(() => { loadClients() }, [loadClients])
@@ -96,6 +118,7 @@ export default function Calendar() {
                         </div>
                     </div>
                     <div className="header-actions">
+                        <button className="btn-outline" onClick={loadClients}>{loading ? '⏳ Loading...' : '🔄 Refresh Data'}</button>
                         <button className="btn-outline" onClick={() => navigate('/')}>➕ Log Visit</button>
                     </div>
                 </div>

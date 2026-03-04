@@ -53,7 +53,68 @@ function doPost(e) {
 
 // Also handle GET requests (for testing and client lookup)
 function doGet(e) {
-  // If a search parameter is provided, look up the client
+  // 1. Fetch ALL clients
+  if (e.parameter.action === 'getAll') {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.SHEET_NAME);
+    if (!sheet) {
+      return ContentService.createTextOutput(JSON.stringify({ status: 'success', data: [] })).setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    const data = sheet.getDataRange().getValues();
+    if (data.length <= 1) {
+      return ContentService.createTextOutput(JSON.stringify({ status: 'success', data: [] })).setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    const headers = data[0];
+    const keyMap = {
+      'Client ID': 'clientId',
+      'Client Name': 'clientName',
+      'Company Name': 'companyName',
+      'Designation': 'designation',
+      'Phone': 'phone',
+      'Email': 'email',
+      'Nature of Business': 'natureBusiness',
+      'Current Insurer': 'currentInsurer',
+      'Policy Type': 'policyType',
+      'Sum Insured': 'sumInsured',
+      'Premium': 'premium',
+      'Policy Start': 'policyStart',
+      'Renewal Date': 'renewalDate',
+      'Satisfaction': 'satisfaction',
+      'Competitor Info': 'competitorInfo',
+      'Notes': 'notes',
+      'Opportunity Score': 'opportunityScore',
+      'Opportunity Label': 'opportunityLabel',
+      'Visit Date': 'visitDate',
+      'Executive ID': 'executiveId',
+      'GPS Location': 'gps',
+      'Submitted At': 'submittedAt',
+      'Visit Type': 'visitType'
+    };
+    
+    const allClients = [];
+    for (let i = 1; i < data.length; i++) {
+        const row = data[i];
+        const clientObj = {};
+        headers.forEach((header, idx) => {
+            const key = keyMap[header];
+            if (key) {
+                clientObj[key] = row[idx];
+            }
+        });
+        // Skip completely empty rows
+        if (clientObj.clientName || clientObj.companyName) {
+            allClients.push(clientObj);
+        }
+    }
+    
+    // Return reversing so newest are first
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'success', data: allClients.reverse() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  // 2. Search for a specific client
   if (e.parameter.search) {
     const searchTerm = e.parameter.search.toLowerCase();
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.SHEET_NAME);

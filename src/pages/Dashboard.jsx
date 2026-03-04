@@ -125,21 +125,29 @@ export default function Dashboard() {
                     <div className="page-header">
                         <div>
                             <div className="page-title">Intelligence Dashboard</div>
-                            <div className="page-sub">Last updated: just now</div>
+                            <div className="page-sub">Live Database View</div>
                         </div>
                         <div className="header-actions">
-                            <button className="btn-outline" onClick={loadSampleData}>📥 Load Sample Data</button>
+                            <button className="btn-outline" onClick={loadClients}>{loading ? '⏳ Loading...' : '🔄 Refresh Data'}</button>
                             <button className="btn-outline" onClick={() => navigate('/')}>➕ Log Visit</button>
                         </div>
                     </div>
-                    <div className="empty-state">
-                        <div className="empty-icon">📋</div>
-                        <div className="empty-title">No clients yet</div>
-                        <div className="empty-sub">Use the Field Bot to log your first client visit</div>
-                        <button className="btn-primary-sm" onClick={loadSampleData}>📥 Load Sample Data</button>
-                        <br />
-                        <button className="btn-secondary-sm" style={{ marginTop: '8px' }} onClick={() => navigate('/')}>🤖 Open Field Bot</button>
-                    </div>
+                    {loading ? (
+                        <div className="empty-state">
+                            <div className="empty-icon">⏳</div>
+                            <div className="empty-title">Fetching from Database...</div>
+                            <div className="empty-sub">Connecting to Google Sheets securely.</div>
+                        </div>
+                    ) : (
+                        <div className="empty-state">
+                            <div className="empty-icon">📋</div>
+                            <div className="empty-title">No clients yet</div>
+                            <div className="empty-sub">Use the Field Bot to log your first client visit or check your database connection.</div>
+                            <button className="btn-primary-sm" onClick={loadClients}>🔄 Refresh Data</button>
+                            <br />
+                            <button className="btn-secondary-sm" style={{ marginTop: '8px' }} onClick={() => navigate('/')}>🤖 Open Field Bot</button>
+                        </div>
+                    )}
                 </div>
             </div>
         )
@@ -153,10 +161,10 @@ export default function Dashboard() {
                 <div className="page-header">
                     <div>
                         <div className="page-title">Intelligence Dashboard</div>
-                        <div className="page-sub">Last updated: {new Date().toLocaleTimeString('en-IN')}</div>
+                        <div className="page-sub">Live Database View</div>
                     </div>
                     <div className="header-actions">
-                        <button className="btn-outline" onClick={loadSampleData}>📥 Load Sample Data</button>
+                        <button className="btn-outline" onClick={loadClients}>{loading ? '⏳ Loading...' : '🔄 Refresh Data'}</button>
                         <button className="btn-outline" onClick={() => navigate('/')}>➕ Log Visit</button>
                     </div>
                 </div>

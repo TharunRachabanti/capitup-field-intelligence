@@ -64,6 +64,11 @@ export default function Dashboard() {
             if (data.status === 'success' && data.data) {
                 setClients(data.data)
                 localStorage.setItem('capitup_clients', JSON.stringify(data.data)) // cache
+            } else if (data.status === 'ok') {
+                alert("⚠️ PLEASE READ: The Dashboard cannot fetch your data because the Google Apps Script was just 'Saved' but not deployed as a 'New Version'.\n\nPlease go to Apps Script -> Deploy -> Manage Deployments -> Edit -> Select 'New Version' -> Deploy.")
+                setClients(JSON.parse(localStorage.getItem('capitup_clients') || '[]'))
+            } else {
+                setClients(JSON.parse(localStorage.getItem('capitup_clients') || '[]'))
             }
         } catch (error) {
             console.error("Error fetching live clients:", error)

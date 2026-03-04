@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -32,6 +32,7 @@ export default function Calendar() {
     const [clients, setClients] = useState([])
     const [loading, setLoading] = useState(true)
     const [popup, setPopup] = useState(null)
+    const calendarRef = useRef(null)
 
     const loadClients = useCallback(async () => {
         setLoading(true)
@@ -49,6 +50,11 @@ export default function Calendar() {
             if (data.status === 'success' && data.data) {
                 setClients(data.data)
                 localStorage.setItem('capitup_clients', JSON.stringify(data.data))
+            } else if (data.status === 'ok') {
+                alert("⚠️ PLEASE READ: The Dashboard cannot fetch your data because the Google Apps Script was just 'Saved' but not deployed as a 'New Version'.\n\nPlease go to Apps Script -> Deploy -> Manage Deployments -> Edit -> Select 'New Version' -> Deploy.")
+                setClients(JSON.parse(localStorage.getItem('capitup_clients') || '[]'))
+            } else {
+                setClients(JSON.parse(localStorage.getItem('capitup_clients') || '[]'))
             }
         } catch (error) {
             console.error("Calendar fetch error:", error)
@@ -118,12 +124,25 @@ export default function Calendar() {
                         </div>
                     </div>
                     <div className="header-actions">
-                        <button className="btn-outline" onClick={loadClients}>{loading ? '⏳ Loading...' : '🔄 Refresh Data'}</button>
-                        <button className="btn-outline" onClick={() => navigate('/bot')}>➕ Log Visit</button>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
+                            <span style={{ fontSize: '10px', color: '#7d8590', fontWeight: 'bold' }}>JUMP TO MONTH</span>
+                            <input
+                                type="month"
+                                className="btn-outline"
+                                style={{ padding: '6px 10px', width: 'auto' }}
+                                onChange={(e) => {
+                                    if (e.target.value && calendarRef.current) {
+                                        calendarRef.current.getApi().gotoDate(e.target.value)
+                                    }
+                                }}
+                            />
+                        </div>
+                        <button className="btn-outline" onClick={loadClients} style={{ alignSelf: 'flex-end' }}>{loading ? '⏳ Loading...' : '🔄 Refresh Data'}</button>
                     </div>
                 </div>
 
                 <FullCalendar
+                    ref={calendarRef}
                     plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
                     initialView="dayGridMonth"
                     headerToolbar={{
